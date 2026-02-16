@@ -1,84 +1,78 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import slugify from "slugify";
-import fs from "fs/promises";
-import path from "path";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 /* ======================
-   GET - LIST NEWS
-====================== */
+    GET - AMBIL SEMUA BERITA
+   ====================== */
 export async function GET() {
-  const news = await prisma.news.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      images: true,
-      button: true,
-    },
-  });
+  try {
+    const news = await prisma.news.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        images: true,
+        button: true,
+      },
+    });
 
-  return NextResponse.json(news);
+    return NextResponse.json(news);
+  } catch (error) {
+    console.error("GET news error:", error);
+    return NextResponse.json([], { status: 500 });
+  }
 }
 
 /* ======================
-   POST - CREATE NEWS
-====================== */
+    POST - BUAT BERITA BARU
+   ====================== */
 export async function POST(req: Request) {
-  const formData = await req.formData();
+  try {
+    const formData = await req.formData();
+    const title = formData.get("title") as string;
+    const excerpt = formData.get("excerpt") as string;
+    const content = formData.get("content") as string;
+    const buttonLabel = formData.get("buttonLabel") as string | null;
+    const buttonUrl = formData.get("buttonUrl") as string | null;
 
-  const title = formData.get("title") as string;
-  const excerpt = formData.get("excerpt") as string;
-  const content = formData.get("content") as string;
+    if (!title || !content) {
+      return NextResponse.json({ message: "Title & content required" }, { status: 400 });
+    }
 
-  const buttonLabel = formData.get("buttonLabel") as string | null;
-  const buttonUrl = formData.get("buttonUrl") as string | null;
+    const slug = slugify(title, { lower: true, strict: true });
 
-  if (!title || !content) {
-    return NextResponse.json(
-      { message: "Title & content required" },
-      { status: 400 }
-    );
-  }
-
-  const slug = slugify(title, { lower: true, strict: true });
-
-  const news = await prisma.news.create({
-    data: {
-      title,
-      slug,
-      excerpt,
-      content,
-      button:
-        buttonLabel && buttonUrl
-          ? {
-              create: {
-                label: buttonLabel,
-                url: buttonUrl,
-              },
-            }
-          : undefined,
-    },
-  });
-
-  /* ===== UPLOAD IMAGES ===== */
-  const files = formData.getAll("images") as File[];
-  const uploadDir = path.join(process.cwd(), "public/uploads/news");
-  await fs.mkdir(uploadDir, { recursive: true });
-
-  for (const file of files) {
-    if (!file.type.startsWith("image/")) continue;
-
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = `${Date.now()}-${file.name}`;
-
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
-
-    await prisma.newsImage.create({
+    // 1. Create News data
+    const news = await prisma.news.create({
       data: {
-        image: `/uploads/news/${filename}`,
-        newsId: news.id,
+        title, 
+        slug, 
+        excerpt, 
+        content,
+        button: buttonLabel && buttonUrl ? {
+          create: { label: buttonLabel, url: buttonUrl },
+        } : undefined,
       },
     });
-  }
 
-  return NextResponse.json({ success: true });
+    // 2. Multi Upload to Cloudinary
+    const files = formData.getAll("images") as File[];
+    for (const file of files) {
+      if (!file || !file.type.startsWith("image/")) continue;
+
+      const upload = await uploadToCloudinary(file, "news");
+
+      await prisma.newsImage.create({
+        data: {
+          image: upload.secure_url,
+          imageId: upload.public_id, 
+          newsId: news.id,
+        },
+      });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("POST news error:", error);
+    return NextResponse.json({ message: "Failed" }, { status: 500 });
+  }
 }

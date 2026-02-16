@@ -1,83 +1,78 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import fs from "fs/promises";
-import path from "path";
+import { uploadToCloudinary, deleteFromCloudinary } from "@/lib/cloudinary";
 
 /* ======================
-   ADD IMAGE
-====================== */
+    ADD IMAGES (POST)
+   ====================== */
 export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: Request, 
+  { params }: { params: Promise<{ id: string }> } // Gunakan Promise untuk Next.js 15
 ) {
-  const newsId = Number(params.id);
-  const formData = await req.formData();
-  const files = formData.getAll("images") as File[];
+  try {
+    const { id } = await params; // Await params di sini
+    const newsId = Number(id);
+    
+    const formData = await req.formData();
+    const files = formData.getAll("images") as File[];
+    
+    // Ambil jumlah gambar terakhir untuk menentukan urutan (order)
+    const count = await prisma.newsImage.count({ where: { newsId } });
 
-  const uploadDir = path.join(process.cwd(), "public/uploads/news");
-  await fs.mkdir(uploadDir, { recursive: true });
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file || !file.type.startsWith("image/")) continue;
 
-  const count = await prisma.newsImage.count({ where: { newsId } });
+      // Upload ke Cloudinary
+      const upload = await uploadToCloudinary(file, "news");
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    if (!file.type.startsWith("image/")) continue;
+      // Simpan ke Database
+      await prisma.newsImage.create({
+        data: {
+          image: upload.secure_url,
+          imageId: upload.public_id,
+          newsId,
+          order: count + i,
+        },
+      });
+    }
+    
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Upload image error:", error);
+    return NextResponse.json({ message: "Upload failed" }, { status: 500 });
+  }
+}
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = `${Date.now()}-${file.name}`;
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
+/* ======================
+    DELETE IMAGE (DELETE)
+   ====================== */
+export async function DELETE(req: Request) {
+  try {
+    const { imageId } = await req.json(); // imageId adalah ID dari tabel NewsImage (Int)
 
-    await prisma.newsImage.create({
-      data: {
-        image: `/uploads/news/${filename}`,
-        newsId,
-        order: count + i,
-      },
+    // 1. Cari data gambar di DB
+    const img = await prisma.newsImage.findUnique({ 
+      where: { id: Number(imageId) } 
     });
+
+    if (!img) {
+      return NextResponse.json({ message: "Image not found" }, { status: 404 });
+    }
+
+    // 2. Hapus dari Cloudinary jika ada publicId-nya
+    if (img.imageId) {
+      await deleteFromCloudinary(img.imageId);
+    }
+
+    // 3. Hapus dari database
+    await prisma.newsImage.delete({ 
+      where: { id: Number(imageId) } 
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Delete image error:", error);
+    return NextResponse.json({ message: "Delete failed" }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
-}
-
-/* ======================
-   DELETE IMAGE
-====================== */
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { imageId } = await req.json();
-
-  const img = await prisma.newsImage.findUnique({
-    where: { id: imageId },
-  });
-
-  if (img) {
-    const filePath = path.join(process.cwd(), "public", img.image);
-    await fs.unlink(filePath).catch(() => {});
-    await prisma.newsImage.delete({ where: { id: imageId } });
-  }
-
-  return NextResponse.json({ success: true });
-}
-
-/* ======================
-   REORDER
-====================== */
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { orders } = await req.json();
-
-  await Promise.all(
-    orders.map((o: { id: number; order: number }) =>
-      prisma.newsImage.update({
-        where: { id: o.id },
-        data: { order: o.order },
-      })
-    )
-  );
-
-  return NextResponse.json({ success: true });
 }

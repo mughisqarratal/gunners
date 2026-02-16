@@ -1,69 +1,40 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import fs from "fs/promises";
-import path from "path";
+import { uploadToCloudinary, deleteFromCloudinary } from "@/lib/cloudinary";
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const biographyId = Number(params.id);
+  const { id } = await params;
+  const biographyId = parseInt(id);
 
-  const biography = await prisma.biography.findUnique({
-    where: { id: biographyId },
-  });
-
-  if (!biography) {
-    return NextResponse.json(
-      { message: "Biography not found" },
-      { status: 404 }
-    );
-  }
+  const biography = await prisma.biography.findUnique({ where: { id: biographyId } });
+  if (!biography) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
   const formData = await req.formData();
   const file = formData.get("image") as File;
 
   if (!file || !file.type.startsWith("image/")) {
-    return NextResponse.json(
-      { message: "File image tidak valid" },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: "Invalid image" }, { status: 400 });
   }
 
-  const uploadDir = path.join(
-    process.cwd(),
-    "public/uploads/biographies"
-  );
-
-  await fs.mkdir(uploadDir, { recursive: true });
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const filename = `${Date.now()}-${file.name.replace(
-    /\s+/g,
-    "-"
-  )}`;
-
-  await fs.writeFile(
-    path.join(uploadDir, filename),
-    buffer
-  );
-
-  // hapus image lama
-  if (biography.image) {
-    await fs
-      .unlink(
-        path.join(process.cwd(), "public", biography.image)
-      )
-      .catch(() => {});
+  // 1. Hapus image lama di Cloudinary
+  if (biography.imageId) {
+    await deleteFromCloudinary(biography.imageId);
   }
 
-  const imagePath = `/uploads/biographies/${filename}`;
+  // 2. Upload baru
+  const upload = await uploadToCloudinary(file, "biographies");
 
+  // 3. Update DB
   await prisma.biography.update({
     where: { id: biographyId },
-    data: { image: imagePath },
+    data: { 
+      image: upload.secure_url, 
+      imageId: upload.public_id 
+    },
   });
 
-  return NextResponse.json({ image: imagePath });
+  return NextResponse.json({ image: upload.secure_url });
 }

@@ -8,15 +8,13 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-
-  // ✅ TAMBAHAN RELATION (AMAN)
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  email               String               @unique
+  password            String
+  role                String               @default("user")
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now())
   passwordResetTokens PasswordResetToken[]
 }
 
@@ -30,7 +28,7 @@ model Gallery {
 }
 
 model GalleryImage {
-  id        String  @id
+  id        String  @id // Tetap String (Bisa diisi Public ID Cloudinary langsung)
   url       String
   order     Int
   galleryId Int
@@ -43,8 +41,9 @@ model Biography {
   id        Int      @id @default(autoincrement())
   name      String
   role      String
-  bio       String   @db.Text // ✅ WAJIB
-  image     String?
+  bio       String   @db.Text
+  image     String?  // Berisi URL
+  imageId   String?  // ✅ TAMBAHKAN INI (Berisi Public ID Cloudinary)
   createdAt DateTime @default(now())
 }
 
@@ -61,9 +60,10 @@ model News {
 }
 
 model NewsImage {
-  id    Int    @id @default(autoincrement())
-  image String
-  order Int    @default(0)
+  id       Int    @id @default(autoincrement())
+  image    String // Berisi URL
+  imageId  String? // ✅ TAMBAHKAN INI (Berisi Public ID Cloudinary)
+  order    Int    @default(0)
 
   newsId Int
   news   News @relation(fields: [newsId], references: [id], onDelete: Cascade)
@@ -84,9 +84,7 @@ model PasswordResetToken {
   expiresAt DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
-
-  // ✅ RELATION KE USER
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
