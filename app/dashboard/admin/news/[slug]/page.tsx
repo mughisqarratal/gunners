@@ -1,10 +1,14 @@
 export default async function NewsDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>; // Ubah params menjadi Promise
 }) {
+  // Tunggu (await) params sebelum digunakan
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/news/slug/${params.slug}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/news/slug/${slug}`, // Gunakan slug yang sudah di-await
     { cache: "no-store" }
   );
 
