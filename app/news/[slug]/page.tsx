@@ -18,9 +18,13 @@ async function getNewsDetail(slug: string) {
 export default async function NewsDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>; // Ubah menjadi Promise
 }) {
-  const news = await getNewsDetail(params.slug);
+  // Tunggu params selesai diproses
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
+
+  const news = await getNewsDetail(slug);
 
   if (!news) {
     return <p className="p-10">News tidak ditemukan</p>;
