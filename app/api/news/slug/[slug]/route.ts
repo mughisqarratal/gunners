@@ -3,26 +3,37 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> } // 1. Tambahkan Promise di sini
 ) {
-  const news = await prisma.news.findUnique({
-    where: { slug: params.slug },
-    include: {
-      images: {
-        orderBy: {
-          order: "asc",
-        },
-      },
-      button: true,
-    },
-  });
+  try {
+    // 2. Await params agar nilainya bisa dibaca
+    const { slug } = await params;
 
-  if (!news) {
+    const news = await prisma.news.findUnique({
+      where: { slug: slug },
+      include: {
+        images: {
+          orderBy: {
+            order: "asc",
+          },
+        },
+        button: true,
+      },
+    });
+
+    if (!news) {
+      return NextResponse.json(
+        { message: "News not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(news);
+  } catch (error) {
+    console.error("GET news by slug error:", error);
     return NextResponse.json(
-      { message: "Not found" },
-      { status: 404 }
+      { message: "Internal Server Error" }, 
+      { status: 500 }
     );
   }
-
-  return NextResponse.json(news);
 }
