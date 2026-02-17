@@ -1,12 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  // 1. Abaikan error TypeScript saat build
+  output: "standalone", // WAJIB ADA
   typescript: {
     ignoreBuildErrors: true,
   },
-  // 2. Abaikan error ESLint (any, unused vars, dll) saat build
   eslint: {
     ignoreDuringBuilds: true,
   },
