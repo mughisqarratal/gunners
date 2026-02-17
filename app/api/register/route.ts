@@ -13,9 +13,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Cek email sudah ada
+    // Cek email sudah ada (Ubah user -> User)
     const [existing] = await db.execute(
-      "SELECT id FROM user WHERE email = ?",
+      "SELECT id FROM User WHERE email = ?",
       [email]
     );
 
@@ -29,9 +29,9 @@ export async function POST(req: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Simpan user
+    // Simpan user (Ubah user -> User)
     await db.execute(
-      "INSERT INTO user (name, email, password) VALUES (?, ?, ?)",
+      "INSERT INTO User (name, email, password) VALUES (?, ?, ?)",
       [name, email, hashedPassword]
     );
 
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("REGISTER ERROR:", error);
     return NextResponse.json(
       { error: "Server error" },
       { status: 500 }

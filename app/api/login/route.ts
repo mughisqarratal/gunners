@@ -16,8 +16,9 @@ export async function POST(req: Request) {
       );
     }
 
+    // Ambil data user (Ubah user -> User)
     const [rows] = await db.execute<any[]>(
-      "SELECT id, password, role FROM user WHERE email = ?",
+      "SELECT id, password, role FROM User WHERE email = ?",
       [email]
     );
 
@@ -38,16 +39,17 @@ export async function POST(req: Request) {
       );
     }
 
-    const cookieStore = cookies(); // ✅ FIX
+    // Menangani cookies secara asynchronous (Next.js 15+ compatible)
+    const cookieStore = await cookies();
 
-    (await cookieStore).set("user_id", String(user.id), {
+    cookieStore.set("user_id", String(user.id), {
       httpOnly: true,
       path: "/",
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
 
-    (await cookieStore).set("role", user.role, {
+    cookieStore.set("role", user.role, {
       httpOnly: true,
       path: "/",
       sameSite: "lax",
