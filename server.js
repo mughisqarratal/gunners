@@ -1,20 +1,21 @@
-const path = require('path');
+const { createServer } = require('http');
+const { parse } = require('url');
+const next = require('next');
 
-// Mengarahkan Node ke file server hasil build standalone Next.js
-// Secara default, Next.js meletakkan server di .next/standalone/server.js
-const nextServerPath = path.join(__dirname, '.next', 'standalone', 'server.js');
+// Gunakan dev = false agar Next.js berjalan dalam mode production
+const dev = false; 
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-try {
-    // Memanggil server bawaan Next.js
-    require(nextServerPath);
-} catch (error) {
-    console.error("Gagal memuat Next.js Server. Pastikan folder .next/standalone sudah ada.");
-    console.error("Error Detail:", error.message);
-    
-    // Fallback sederhana agar server tidak langsung mati tanpa info
-    const http = require('http');
-    http.createServer((req, res) => {
-        res.writeHead(500);
-        res.end("Server Build Not Found. Please Re-deploy.");
-    }).listen(process.env.PORT || 3000);
-}
+app.prepare().then(() => {
+  createServer((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    handle(req, res, parsedUrl);
+  }).listen(process.env.PORT || 3000, (err) => {
+    if (err) throw err;
+    console.log('> Server ready on Hostinger');
+  });
+}).catch((ex) => {
+  console.error(ex.stack);
+  process.exit(1);
+});

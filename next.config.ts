@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone", // WAJIB ADA
+  // Matikan standalone untuk Hostinger shared hosting
+  // output: "standalone", 
+  
   typescript: {
     ignoreBuildErrors: true,
   },
