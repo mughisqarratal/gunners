@@ -16,6 +16,6 @@ const getPoolConfig = () => {
 export const db = mysql.createPool({
   ...getPoolConfig(),
   waitForConnections: true,
-  connectionLimit: 3, // Diturunkan ke 3 untuk menghindari error Thread/Assertion di Hostinger
+  connectionLimit: 2, // Diturunkan ke 3 untuk menghindari error Thread/Assertion di Hostinger
   queueLimit: 0,
 });

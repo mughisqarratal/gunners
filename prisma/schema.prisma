@@ -18,6 +18,21 @@ model User {
   passwordResetTokens PasswordResetToken[]
 }
 
+// --- MODEL YANG DIUBAH ---
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique // Ini akan kita isi dengan 4 digit OTP
+  userId    Int
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// --- MODEL LAIN (TETAP SAMA / TIDAK DIUBAH) ---
+
 model Gallery {
   id        Int            @id @default(autoincrement())
   title     String
@@ -28,7 +43,7 @@ model Gallery {
 }
 
 model GalleryImage {
-  id        String  @id // Tetap String (Bisa diisi Public ID Cloudinary langsung)
+  id        String  @id
   url       String
   order     Int
   galleryId Int
@@ -42,31 +57,29 @@ model Biography {
   name      String
   role      String
   bio       String   @db.Text
-  image     String?  // Berisi URL
-  imageId   String?  // ✅ TAMBAHKAN INI (Berisi Public ID Cloudinary)
+  image     String?
+  imageId   String?
   createdAt DateTime @default(now())
 }
 
 model News {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   title     String
-  slug      String   @unique
+  slug      String      @unique
   excerpt   String?
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-
-  images NewsImage[]
-  button NewsButton?
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+  images    NewsImage[]
+  button    NewsButton?
 }
 
 model NewsImage {
-  id       Int    @id @default(autoincrement())
-  image    String // Berisi URL
-  imageId  String? // ✅ TAMBAHKAN INI (Berisi Public ID Cloudinary)
-  order    Int    @default(0)
-
-  newsId Int
-  news   News @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  id      Int     @id @default(autoincrement())
+  image   String
+  imageId String?
+  order   Int     @default(0)
+  newsId  Int
+  news    News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
 }
 
 model NewsButton {
@@ -75,16 +88,4 @@ model NewsButton {
   url    String
   newsId Int    @unique
   news   News   @relation(fields: [newsId], references: [id], onDelete: Cascade)
-}
-
-model PasswordResetToken {
-  id        Int      @id @default(autoincrement())
-  token     String   @unique
-  userId    Int
-  expiresAt DateTime
-  used      Boolean  @default(false)
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }

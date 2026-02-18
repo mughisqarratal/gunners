@@ -80,7 +80,7 @@ export default function NavbarDekstop() {
                 <Image
                   src="/icons/avatar.png"
                   alt="Profile"
-                  width={40}
+                  width={30}
                   height={50}
                   className="rounded hover:scale-110 transition-transform"
                 />
