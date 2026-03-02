@@ -3,6 +3,8 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
 /* ================= FETCH NEWS ================= */
+export const revalidate = 60;
+
 async function getNews() {
   return prisma.news.findMany({
     orderBy: { createdAt: "desc" },
