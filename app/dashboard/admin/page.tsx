@@ -11,7 +11,7 @@ export default async function AdminDashboardPage() {
   }
 
   // Ambil data real user dari DB
-  const [users] = await db.execute<any[]>("SELECT id, name, email, role, createdAt FROM user");
+  const [users] = await db.execute<any[]>("SELECT id, name, email, role, createdAt FROM User");
 
   const totalUsers = users.length;
   const totalAdmins = users.filter(u => u.role === "admin").length;
