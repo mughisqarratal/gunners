@@ -1,16 +1,14 @@
-// app/api/logout/route.ts
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-export const runtime = "nodejs"; // pastikan runtime nodejs
+export const runtime = "nodejs";
 
 export async function POST() {
-  const response = NextResponse.json({ success: true });
+  const cookieStore = await cookies();
+  
+  // Hapus semua cookie dengan cara set maxAge ke 0
+  cookieStore.set("user_id", "", { path: "/", maxAge: 0 });
+  cookieStore.set("role", "", { path: "/", maxAge: 0 });
 
-  // Hapus cookie
-  response.cookies.set("user_id", "", {
-    path: "/",
-    maxAge: 0,
-  });
-
-  return response;
+  return NextResponse.json({ success: true });
 }

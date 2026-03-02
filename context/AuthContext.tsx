@@ -31,9 +31,7 @@ export function AuthProvider({
   const logout = () => {
     setIsLoggedIn(false);
     setRole(null);
-    // Hapus cookie saat logout
-    document.cookie = "user_id=; path=/; max-age=0";
-    document.cookie = "role=; path=/; max-age=0";
+    // Kita tidak pakai document.cookie di sini karena httpOnly cookie tidak bisa diakses JS
   };
 
   return (
