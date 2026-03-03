@@ -33,11 +33,10 @@ export default async function GalleryPage() {
   const galleries = await getGallery();
 
   return (
-    <main className="max-w-6xl mx-auto px-3 py-6">
-      <h1 className="text-3xl font-bold mb-8 text-center">
+    <main className="max-w-6xl mx-auto px-3">
+      {/* <h1 className="text-3xl font-bold mb-8 text-center">
         GALLERY
-      </h1>
-
+      </h1> */}
       <div className="space-y-14">
         {galleries.map((g) => (
           <section key={g.id} className="sm:mb-8">

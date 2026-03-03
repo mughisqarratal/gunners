@@ -12,10 +12,10 @@ export default async function BiographiesPage() {
   const personels = await getPersonels();
 
   return (
-    <div className="container mx-auto px-3 sm:px-4 py-8">
+    <div className="container mx-auto px-3 sm:px-4 py-5">
       {/* BIOGRAPHIES */}
       <section className="text-center mb-10 sm:mb-15">
-        <h1 className="text-3xl font-bold mb-6">BIOGRAPHIES</h1>
+        {/* <h1 className="text-3xl font-bold mb-6">BIOGRAPHIES</h1> */}
 
         <img
           src="/images/gnr.png"

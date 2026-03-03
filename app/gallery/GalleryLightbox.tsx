@@ -67,7 +67,7 @@ export default function GalleryLightbox({
               src={img}
               alt="Gallery"
               fill
-              className="object-cover"
+              className="object-cover cursor-pointer"
               sizes="(max-width: 768px) 100vw, 25vw"
             />
           </button>
@@ -108,7 +108,7 @@ export default function GalleryLightbox({
             {activeIndex < images.length - 1 && (
               <button
                 onClick={() => setActiveIndex(activeIndex + 1)}
-                className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-40 text-white bg-black/60 w-10 h-10 rounded-full items-center justify-center text-2xl"
+                className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-40 text-white bg-black w-10 h-10 rounded-full items-center justify-center text-2xl cursor-pointer"
               >
                 ›
               </button>

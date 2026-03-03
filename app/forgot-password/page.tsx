@@ -9,7 +9,8 @@ export default function ForgotPasswordPage() {
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
+  const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [timer, setTimer] = useState(300); // 5 menit (300 detik)
@@ -94,7 +95,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen bg-[url(/images/bg.webp)] bg-cover px-3">
-      <div className="w-full max-w-md pt-7">
+      <div className="w-full max-w-md">
         <div className="bg-white rounded-xl shadow p-6 flex flex-col gap-6">
           <h1 className="text-2xl font-bold text-center">
             {step === 1 && "Lupa Kata Sandi"}
@@ -105,7 +106,9 @@ export default function ForgotPasswordPage() {
           {/* FORM STEP 1: INPUT EMAIL */}
           {step === 1 && (
             <form onSubmit={handleRequestOtp} className="flex flex-col gap-4">
-              <p className="text-sm text-gray-500 text-center">Masukkan email untuk menerima kode OTP 4 digit.</p>
+              <p className="text-sm text-gray-500 text-center">
+                Masukkan email untuk menerima kode OTP 4 digit.
+              </p>
               <input
                 type="email"
                 placeholder="Masukkan email"
@@ -117,7 +120,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full h-12 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {loading && <Loader2 className="animate-spin" size={20} />}
                 {loading ? "Mengirim..." : "Kirim OTP"}
@@ -128,7 +131,9 @@ export default function ForgotPasswordPage() {
           {/* FORM STEP 2: INPUT OTP */}
           {step === 2 && (
             <form onSubmit={handleVerifyOtp} className="flex flex-col gap-4">
-              <p className="text-sm text-gray-500 text-center">Kode dikirim ke <span className="font-bold">{email}</span></p>
+              <p className="text-sm text-gray-500 text-center">
+                Kode dikirim ke <span className="font-bold">{email}</span>
+              </p>
               <input
                 type="text"
                 maxLength={4}
@@ -140,14 +145,25 @@ export default function ForgotPasswordPage() {
               />
               <div className="text-center text-sm">
                 {timer > 0 ? (
-                  <p className="text-gray-500">Kirim ulang dalam <span className="text-red-500 font-bold">{formatTime(timer)}</span></p>
+                  <p className="text-gray-500">
+                    Kirim ulang dalam{" "}
+                    <span className="text-red-500 font-bold">
+                      {formatTime(timer)}
+                    </span>
+                  </p>
                 ) : (
-                  <button type="button" onClick={handleRequestOtp} className="text-blue-600 font-bold">Kirim Ulang OTP</button>
+                  <button
+                    type="button"
+                    onClick={handleRequestOtp}
+                    className="text-blue-600 font-bold"
+                  >
+                    Kirim Ulang OTP
+                  </button>
                 )}
               </div>
               <button
                 type="submit"
-                className="w-full h-12 rounded bg-blue-600 text-white font-medium hover:bg-blue-700"
+                className="w-full h-12 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 cursor-pointer"
               >
                 Verifikasi OTP
               </button>
@@ -156,7 +172,10 @@ export default function ForgotPasswordPage() {
 
           {/* FORM STEP 3: INPUT PASSWORD BARU */}
           {step === 3 && (
-            <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+            <form
+              onSubmit={handleResetPassword}
+              className="flex flex-col gap-4"
+            >
               <div className="relative">
                 <input
                   type={showPass ? "text" : "password"}
@@ -166,26 +185,39 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-3 text-gray-400"
+                  className="absolute right-3 top-3 text-gray-500 cursor-pointer"
                 >
                   {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              <input
-                type="password"
-                placeholder="Konfirmasi Password Baru"
-                className="w-full h-12 rounded border px-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+
+              {/* Confirm Password */}
+              <div className="relative">
+                <input
+                  type={showConfirm ? "text" : "password"}
+                  placeholder="Konfirmasi Password Baru"
+                  className="w-full h-12 rounded border px-3 pr-10 text-base
+                focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                >
+                  {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 rounded bg-green-600 text-white font-medium hover:bg-green-700 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full h-12 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {loading && <Loader2 className="animate-spin" size={20} />}
                 {loading ? "Memproses..." : "Reset Password"}
@@ -194,13 +226,15 @@ export default function ForgotPasswordPage() {
           )}
 
           {message && (
-            <p className="text-center text-sm text-red-600 font-medium italic">{message}</p>
+            <p className="text-center text-sm text-red-600 font-medium italic">
+              {message}
+            </p>
           )}
-          
-          <button 
-            type="button" 
-            onClick={() => window.location.href = "/login"}
-            className="text-center text-sm text-gray-500 hover:underline"
+
+          <button
+            type="button"
+            onClick={() => (window.location.href = "/login")}
+            className="text-center text-sm text-blue-600 hover:underline cursor-pointer"
           >
             Kembali ke Halaman Login
           </button>

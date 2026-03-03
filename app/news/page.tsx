@@ -28,8 +28,8 @@ export default async function NewsPage() {
   const news = await getNews();
 
   return (
-    <main className="max-w-5xl mx-auto px-4">
-      <h1 className="text-3xl font-bold mt-3 text-center">NEWS</h1>
+    <main className="max-w-5xl mx-auto px-4 ">
+      {/* <h1 className="text-3xl font-bold mt-3 text-center">NEWS</h1> */}
 
       {/* ✅ LIST WRAPPER (INI KUNCINYA) */}
       <ul className="flex flex-col gap-6 py-6">
@@ -43,7 +43,7 @@ export default async function NewsPage() {
                 className="
                   block
                   bg-white rounded shadow
-                  hover:bg-gray-50 transition
+                  hover:bg-gray-200 transition
                 "
               >
                 <article
@@ -66,7 +66,7 @@ export default async function NewsPage() {
                   )}
 
                   {/* CONTENT */}
-                  <div className="flex flex-col justify-between flex-1">
+                  <div className="flex flex-col justify-between flex-1 ">
                     <div>
                       <h2 className="text-xl font-semibold">{n.title}</h2>
 

@@ -9,7 +9,7 @@ export default async function UsersPage() {
     return <p className="text-red-500">Unauthorized</p>;
   }
 
-  const [users] = await db.execute<any[]>("SELECT id, name, email, role, createdAt FROM user");
+  const [users] = await db.execute<any[]>("SELECT id, name, email, role, createdAt FROM User");
 
   return (
     <div>

@@ -77,7 +77,7 @@ export default function NavbarMobile() {
                         className={`transition-colors duration-300 ${
                           isActive
                             ? "text-[#F3B800]"
-                            : "group-hover:text-[#FF004D]"
+                            : "group-hover:text-[#DC0000]"
                         }`}
                       >
                         {item.name}

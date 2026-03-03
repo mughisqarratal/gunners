@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +43,7 @@ export default function RegisterPage() {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      router.push("/login");
     } else {
       setMessage(data.error || "Registrasi gagal");
     }
@@ -48,7 +51,7 @@ export default function RegisterPage() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen text-center bg-[#0C0C0C] px-3">
-      <div className="w-full max-w-md pt-9">
+      <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-xl shadow p-6 flex flex-col gap-6"
@@ -91,7 +94,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -111,7 +114,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
             >
               {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -123,14 +126,14 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full h-12 rounded bg-blue-600 text-white font-medium
               hover:bg-blue-700 disabled:opacity-60 transition
-              flex items-center justify-center gap-2"
+              flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading && <Loader2 className="animate-spin" size={20} />}
             {loading ? "Loading..." : "Register"}
           </button>
 
           {message && (
-            <p className="text-center text-sm text-red-500">{message}</p>
+            <p className="text-center text-sm text-blue-600">{message}</p>
           )}
 
           <p className="text-center">Login, jika sudah punya Akun!</p>

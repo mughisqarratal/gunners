@@ -50,9 +50,9 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify min-h-screen text-center bg-cyan-800 px-3">
-      <div className="w-full max-w-md pt-9">
-        <div className="flex justify-center mb-6">
+    <section className="flex flex-col items-center justify-center min-h-screen text-center bg-[#0C0C0C] px-3">
+      <div className="w-full max-w-md">
+        {/* <div className="flex justify-center mb-6">
           <Image
             src="/images/gnr.png"
             alt="Logo"
@@ -61,7 +61,7 @@ export default function LoginPage() {
             className="w-40 sm:w-50 h-auto"
             priority
           />
-        </div>
+        </div> */}
 
         <form
           onSubmit={handleSubmit}
@@ -91,7 +91,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -102,7 +102,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full h-12 rounded bg-blue-600 text-white font-medium
             hover:bg-blue-700 disabled:opacity-60 transition
-            flex items-center justify-center gap-2"
+            flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading && <Loader2 className="animate-spin" size={20} />}
             {loading ? "Loading..." : "Login"}
@@ -119,7 +119,7 @@ export default function LoginPage() {
 
           <p className="text-center">Login, jika sudah punya Akun!</p>
 
-          <button className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition">
+          <button className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition cursor-pointer">
             <a href="/register">Register</a>
           </button>
         </form>

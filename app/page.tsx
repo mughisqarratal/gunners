@@ -33,7 +33,7 @@ export default async function Home() {
         <div className="absolute inset-0 bg-black/45" />
 
         {/* Konten */}
-        <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
+        <div className="relative z-10 flex h-full items-center justify-center px-5 text-center">
           <h1
             className="text-white font-bold leading-tight px-5 py-35
               sm:px-6 sm:py-4
@@ -44,6 +44,16 @@ export default async function Home() {
             The Official Indonesian <br className="hidden sm:block"/>
             Guns N' Roses Fan Site
           </h1>
+          {/* <h1
+            className="text-white font-bold leading-tight px-5 py-35
+              sm:px-6 sm:py-4
+              lg:px-10 lg:py-6
+              text-2xl sm:text-3xl lg:text-5xl
+              sm:font-bold"
+          >
+            The Official Indonesian <br className="hidden sm:block"/>
+            Guns N' Roses Fan Site
+          </h1> */}
         </div>
       </section>
 
@@ -68,7 +78,7 @@ export default async function Home() {
             <>
               <li>
                 <button
-                  className="font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-5.5
+                  className="cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-5.5
                   rounded-full border border-gray-50 border-hover:bg-[#07d9f5]"
                 >
                   <a href="/register">Sign Up</a>
@@ -77,7 +87,7 @@ export default async function Home() {
 
               <li className="pt-4">
                 <button
-                  className="font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-7
+                  className="cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-7
                   rounded-full border border-gray-50 border-hover:bg-[#07d9f5]"
                 >
                   <a href="/login">Login</a>
