@@ -50,7 +50,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen text-center bg-[#0C0C0C] px-3">
+    <main className="bg-[#000000]">
+    <section className="flex flex-col items-center justify-center min-h-screen bg-[url(/images/bg1.webp)] px-3 bg-fixed sm:bg-top bg-repeat-x sm:bg-size-[auto_915px] bg-position-[center_top_3rem] bg-size-[auto_290px]">
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit}
@@ -147,5 +148,6 @@ export default function RegisterPage() {
         </form>
       </div>
     </section>
+    </main>
   );
 }

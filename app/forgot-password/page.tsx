@@ -94,7 +94,8 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen bg-[url(/images/bg.webp)] bg-cover px-3">
+    <main className="bg-[#000000]">
+    <section className="flex flex-col items-center justify-center min-h-screen bg-[url(/images/bg1.webp)] px-3 bg-fixed sm:bg-top bg-repeat-x sm:bg-size-[auto_915px] bg-position-[center_top_3rem] bg-size-[auto_290px]">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-xl shadow p-6 flex flex-col gap-6">
           <h1 className="text-2xl font-bold text-center">
@@ -241,5 +242,6 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
     </section>
+    </main>
   );
 }

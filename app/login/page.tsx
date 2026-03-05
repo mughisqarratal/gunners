@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -50,19 +49,9 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen text-center bg-[#0C0C0C] px-3">
+    <main className="bg-[#000000]">
+    <section className="flex flex-col items-center justify-center min-h-screen bg-[url(/images/bg1.webp)] px-3 bg-fixed sm:bg-top bg-repeat-x sm:bg-size-[auto_915px] bg-position-[center_top_3rem] bg-size-[auto_290px]">
       <div className="w-full max-w-md">
-        {/* <div className="flex justify-center mb-6">
-          <Image
-            src="/images/gnr.png"
-            alt="Logo"
-            width={160}
-            height={60}
-            className="w-40 sm:w-50 h-auto"
-            priority
-          />
-        </div> */}
-
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-xl shadow p-6 flex flex-col gap-4"
@@ -125,5 +114,6 @@ export default function LoginPage() {
         </form>
       </div>
     </section>
+    </main>
   );
 }
