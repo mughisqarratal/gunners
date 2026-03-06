@@ -7,60 +7,31 @@ export async function PUT(req: Request) {
   try {
     const { currentPassword, newPassword } = await req.json();
 
-    if (!currentPassword || !newPassword) {
-      return NextResponse.json(
-        { message: "Password wajib diisi" },
-        { status: 400 }
-      );
-    }
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("user_id")?.value;
 
-    if (newPassword.length < 8) {
-      return NextResponse.json(
-        { message: "Password minimal 8 karakter" },
-        { status: 400 }
-      );
-    }
-
-    // ✅ FIX COOKIE
-    const cookieStore = cookies();
-    const userId = (await cookieStore).get("user_id")?.value;
-
-    if (!userId) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!userId) return NextResponse.json({ message: "Sesi habis" }, { status: 401 });
 
     const user = await prisma.user.findUnique({
       where: { id: Number(userId) },
     });
 
-    if (!user) {
-      return NextResponse.json(
-        { message: "User tidak ditemukan" },
-        { status: 404 }
-      );
+    if (!user) return NextResponse.json({ message: "User tidak ditemukan" }, { status: 404 });
+
+    // VALIDASI 3: Password Lama Salah
+    const isOldPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
+    if (!isOldPasswordCorrect) {
+      return NextResponse.json({ message: "Password lama yang Anda masukkan salah!" }, { status: 403 });
     }
 
-    const valid = await bcrypt.compare(currentPassword, user.password);
-    if (!valid) {
-      return NextResponse.json(
-        { message: "Password lama salah" },
-        { status: 403 }
-      );
-    }
-
-    const hashed = await bcrypt.hash(newPassword, 10);
-
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({
       where: { id: user.id },
-      data: { password: hashed },
+      data: { password: hashedNewPassword },
     });
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json(
-      { message: "Server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Terjadi kesalahan server" }, { status: 500 });
   }
 }
