@@ -5,7 +5,7 @@ export default async function AdminDashboardPage() {
   const cookieStore = await cookies();
   const role = cookieStore.get("role")?.value;
 
-  // 🔐 Hanya admin
+  // 🔐 Admin Only
   if (role !== "admin") {
     return <p className="text-red-500">Unauthorized</p>;
   }

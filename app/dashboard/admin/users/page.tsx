@@ -1,42 +1,25 @@
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
+import UserTable from "./UserTable";
 
 export default async function UsersPage() {
   const cookieStore = await cookies();
   const role = cookieStore.get("role")?.value;
 
   if (role !== "admin") {
-    return <p className="text-red-500">Unauthorized</p>;
+    return <p className="text-red-500 p-10 font-bold">Unauthorized: Akses Ditolak</p>;
   }
 
-  const [users] = await db.execute<any[]>("SELECT id, name, email, role, createdAt FROM User");
+  // Ambil data user dari database (Pastikan nama tabel "User" sesuai dengan DB Hostinger kamu)
+  const [users] = await db.execute<any[]>(
+    "SELECT id, name, email, role, createdAt FROM User ORDER BY createdAt ASC"
+  );
 
   return (
-    <div>
+    <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Kelola User</h1>
-
-      <table className="w-full table-auto border-collapse border border-gray-200">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">ID</th>
-            <th className="border px-4 py-2">Name</th>
-            <th className="border px-4 py-2">Email</th>
-            <th className="border px-4 py-2">Role</th>
-            <th className="border px-4 py-2">Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td className="border px-4 py-2 text-center font-bold">{user.id}</td>
-              <td className="border px-4 py-2">{user.name}</td>
-              <td className="border px-4 py-2">{user.email}</td>
-              <td className="border px-4 py-2 text-center text-transform: capitalize">{user.role}</td>
-              <td className="border px-4 py-2 text-center">{new Date(user.createdAt).toLocaleString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Kita pindahkan tabel ke komponen terpisah agar bisa klik Edit/Hapus */}
+      <UserTable initialUsers={users} />
     </div>
   );
 }

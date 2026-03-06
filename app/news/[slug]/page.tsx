@@ -45,7 +45,7 @@ export default async function NewsDetail({
             <img
               key={img.id}
               src={img.image}
-              className="rounded"
+              className=""
               alt=""
             />
           ))}

@@ -33,7 +33,7 @@ export default async function GalleryPage() {
   const galleries = await getGallery();
 
   return (
-    <main className="max-w-6xl mx-auto px-3">
+    <main className="max-w-6xl mx-auto px-3 pb-1.5">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">
         GALLERY
       </h1> */}

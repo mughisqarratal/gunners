@@ -42,7 +42,7 @@ export default async function NewsPage() {
                 href={`/news/${n.slug}`}
                 className="
                   block
-                  bg-white rounded shadow
+                  bg-white shadow
                   hover:bg-gray-200 transition
                 "
               >
@@ -54,7 +54,7 @@ export default async function NewsPage() {
                 >
                   {/* THUMBNAIL */}
                   {thumbnail && (
-                    <div className="relative w-full sm:w-48 h-48 sm:h-32 shrink-0 overflow-hidden rounded">
+                    <div className="relative w-full sm:w-48 h-48 sm:h-32 shrink-0 overflow-hidden">
                       <Image
                         src={thumbnail}
                         alt={n.title}
