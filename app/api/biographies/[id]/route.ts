@@ -6,7 +6,7 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params; // Next.js 15 async params
+  const { id } = await params;
   const biographyId = parseInt(id);
 
   const formData = await req.formData();
@@ -22,7 +22,7 @@ export async function PUT(
   let imageId = biography.imageId;
 
   if (file && file.type.startsWith("image/")) {
-    // Hapus yang lama dari Cloud jika ada
+    // Hapus gambar lama dari Cloud jika ada
     if (biography.imageId) await deleteFromCloudinary(biography.imageId);
 
     const upload = await uploadToCloudinary(file, "biographies");
