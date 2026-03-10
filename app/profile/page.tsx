@@ -196,8 +196,8 @@ export default function ProfilePage() {
         <div className="p-6">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-xl font-bold">Pengaturan Akun</h2>
-            <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-full cursor-pointer">
-              <X size={24} />
+            <button onClick={() => setIsSidebarOpen(false)} className="p-1 hover:bg-gray-100 rounded-md cursor-pointer border">
+              <X size={25} />
             </button>
           </div>
 
@@ -211,12 +211,12 @@ export default function ProfilePage() {
                   value={name} 
                   disabled={loadingAction !== null}
                   onChange={(e) => setName(e.target.value)}
-                  className="flex-1 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-black outline-none disabled:bg-gray-50"
+                  className="flex-1 border rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-black outline-none disabled:bg-gray-50"
                 />
                 <button 
                   onClick={handleUpdateName} 
                   disabled={loadingAction !== null}
-                  className="bg-black text-white px-4 py-2 rounded-xl text-xs font-bold disabled:bg-gray-400 min-w-17.5 cursor-pointer"
+                  className="bg-black text-white px-4 py-2 rounded-md text-xs font-bold disabled:bg-gray-400 min-w-17.5 cursor-pointer"
                 >
                   {loadingAction === "name" ? "..." : "Simpan"}
                 </button>
@@ -234,7 +234,7 @@ export default function ProfilePage() {
                   value={email} 
                   disabled={loadingAction !== null}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border rounded-xl px-4 py-2 text-sm outline-none disabled:bg-gray-50"
+                  className="w-full border rounded-md px-4 py-2 text-sm outline-none disabled:bg-gray-50"
                   placeholder="Email baru"
                 />
                 <div className="relative">
@@ -243,17 +243,17 @@ export default function ProfilePage() {
                     value={emailPassword}
                     disabled={loadingAction !== null}
                     onChange={(e) => setEmailPassword(e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
+                    className="w-full border rounded-md px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
                     placeholder="Konfirmasi Password"
                   />
                   <button onClick={() => setShowEmailPassword(!showEmailPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                    {showEmailPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showEmailPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <button 
                   onClick={handleUpdateEmail} 
                   disabled={loadingAction !== null}
-                  className="w-full bg-black text-white py-2 rounded-xl text-sm font-bold disabled:bg-gray-400 cursor-pointer"
+                  className="w-full bg-black text-white py-2 rounded-md text-sm font-bold disabled:bg-gray-400 cursor-pointer"
                 >
                   {loadingAction === "email" ? "Memproses..." : "Update Email"}
                 </button>
@@ -272,11 +272,11 @@ export default function ProfilePage() {
                     value={currentPassword}
                     disabled={loadingAction !== null}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
+                    className="w-full border rounded-md px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
                     placeholder="Password Lama"
                   />
                   <button onClick={() => setShowCurrentPassword(!showCurrentPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                    {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <div className="relative">
@@ -285,17 +285,17 @@ export default function ProfilePage() {
                     value={newPassword}
                     disabled={loadingAction !== null}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full border rounded-xl px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
+                    className="w-full border rounded-md px-4 py-2 text-sm pr-10 outline-none disabled:bg-gray-50"
                     placeholder="Password Baru"
                   />
                   <button onClick={() => setShowNewPassword(!showNewPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer">
-                    {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <button 
                   onClick={handleUpdatePassword} 
                   disabled={loadingAction !== null}
-                  className="w-full bg-black text-white py-2 rounded-xl text-sm font-bold disabled:bg-gray-400 cursor-pointer"
+                  className="w-full bg-black text-white py-2 rounded-md text-sm font-bold disabled:bg-gray-400 cursor-pointer"
                 >
                   {loadingAction === "password" ? "Memproses..." : "Update Password"}
                 </button>

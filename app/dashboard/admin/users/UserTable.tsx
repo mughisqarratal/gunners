@@ -53,7 +53,7 @@ export default function UserTable({ initialUsers }: { initialUsers: any[] }) {
         <thead>
           <tr className="bg-gray-100">
             {/* Tambah Header No */}
-            <th className="border px-4 py-2 w-12">No</th>
+            <th className="border px-4 py-2 w-12">No.</th>
             <th className="border px-4 py-2">ID</th>
             <th className="border px-4 py-2">Name</th>
             <th className="border px-4 py-2">Email</th>
@@ -66,18 +66,18 @@ export default function UserTable({ initialUsers }: { initialUsers: any[] }) {
           {users.map((user, index) => (
             <tr key={user.id} className="hover:bg-gray-50">
               {/* Kolom Nomor Urut */}
-              <td className="border px-4 py-2 text-center font-bold">
+              <td className="border px-4 py-2 text-center font-bold text-[15px]">
                 {index + 1}
               </td>
-              <td className="border px-4 py-2 text-center font-bold">
+              <td className="border px-4 py-2 text-center text-[15px]">
                 {user.id}
               </td>
-              <td className="border px-4 py-2">{user.name}</td>
-              <td className="border px-4 py-2">{user.email}</td>
-              <td className="border px-4 py-2 text-center" style={{ textTransform: "capitalize" }}>
+              <td className="border px-4 py-2 text-[15px]">{user.name}</td>
+              <td className="border px-4 py-2 text-[15px]">{user.email}</td>
+              <td className="border px-4 py-2 text-center text-[15px]" style={{ textTransform: "capitalize" }}>
                 {user.role}
               </td>
-              <td className="border px-4 py-2 text-center">
+              <td className="border px-4 py-2 text-center text-[15px]">
                 {isMounted 
                   ? new Date(user.createdAt).toLocaleString("id-ID") 
                   : "Loading..."}

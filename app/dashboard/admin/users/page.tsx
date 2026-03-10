@@ -16,10 +16,12 @@ export default async function UsersPage() {
   );
 
   return (
-    <div className="p-4">
+    <main className="">
+    <div className="">
       <h1 className="text-2xl font-bold mb-4">Kelola User</h1>
       {/* Kita pindahkan tabel ke komponen terpisah agar bisa klik Edit/Hapus */}
       <UserTable initialUsers={users} />
     </div>
+    </main>
   );
 }
