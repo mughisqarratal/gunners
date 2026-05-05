@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import AdminBiographyPreview from "./AdminBiographyPreview";
 import AdminBiographyEdit from "./AdminBiographyEdit";
 import { Loader2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 interface Biography {
   id: number;
@@ -78,9 +79,36 @@ export default function AdminBiographiesPage() {
 
   /* ================= DELETE ================= */
   const handleDelete = async (id: number) => {
-    if (!confirm("Yakin hapus biography ini?")) return;
-    await fetch(`/api/biographies/${id}`, { method: "DELETE" });
-    fetchBiographies();
+    // --- START UBAH DISINI ---
+    Swal.fire({
+      title: "Apakah kamu yakin ingin menghapus biography ini?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showDenyButton: true,
+      showCancelButton: false, // Kita gunakan Deny sebagai tombol 'Tidak'
+      confirmButtonText: "Ya, Hapus!",
+      denyButtonText: `Batal`,
+      confirmButtonColor: "#d33", // Merah untuk hapus
+      denyButtonColor: "#3085d6", // Biru untuk batal
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Proses Delete ke API
+          const res = await fetch(`/api/biographies/${id}`, { method: "DELETE" });
+          
+          if (res.ok) {
+            Swal.fire("Terhapus!", "Biography berhasil dihapus.", "success");
+            fetchBiographies(); // Refresh list
+          } else {
+            Swal.fire("Gagal!", "Terjadi kesalahan saat menghapus data.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Error!", "Tidak dapat terhubung ke server.", "error");
+        }
+      } else if (result.isDenied) {
+        Swal.fire("Dibatalkan", "Biography aman, tidak jadi dihapus.", "info");
+      }
+    });
   };
 
   return (

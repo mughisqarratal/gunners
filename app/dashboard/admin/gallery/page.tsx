@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import AdminGalleryPreview from "./AdminGalleryPreview";
 import AdminGalleryEdit from "./AdminGalleryEdit";
 import { Loader2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 interface GalleryImage {
   id: string;
@@ -97,10 +98,22 @@ export default function AdminGalleryPage() {
 
   /* ================= DELETE GALLERY ================= */
   const handleDeleteGallery = async (id: string) => {
-    if (!confirm("Yakin hapus seluruh gallery ini?")) return;
-
-    const res = await fetch(`/api/gallery/${id}`, { method: "DELETE" });
-    if (res.ok) fetchGallery();
+    Swal.fire({
+      title: "Apakah kamu yakin ingin menghapus gallery ini?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Ya, Hapus!",
+      denyButtonText: `Batal`,
+      confirmButtonColor: "#d33",
+      denyButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch(`/api/gallery/${id}`, { method: "DELETE" });
+        if (res.ok) fetchGallery();
+      }
+    });
   };
 
   return (

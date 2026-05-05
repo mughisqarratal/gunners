@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function UserTable({ initialUsers }: { initialUsers: any[] }) {
   const [users, setUsers] = useState(initialUsers);
@@ -13,19 +14,32 @@ export default function UserTable({ initialUsers }: { initialUsers: any[] }) {
   }, []);
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus user ini?")) return;
-
-    try {
-      const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        setUsers(users.filter((u) => u.id !== id));
-        alert("User berhasil dihapus");
-      } else {
-        alert("Gagal menghapus user");
+    Swal.fire({
+      title: "Apakah kamu yakin ingin menghapus user ini?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Ya, Hapus!",
+      denyButtonText: `Batal`,
+      confirmButtonColor: "#d33",
+      denyButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
+          if (res.ok) {
+            setUsers(users.filter((u) => u.id !== id));
+            Swal.fire("Terhapus!", "User berhasil dihapus.", "success");
+          } else {
+            Swal.fire("Gagal!", "Terjadi kesalahan saat menghapus data.", "error");
+          }
+        } catch (err) {
+          console.error(err);
+          Swal.fire("Error!", "Tidak dapat terhubung ke server.", "error");
+        }
       }
-    } catch (err) {
-      console.error(err);
-    }
+    });
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -40,10 +54,11 @@ export default function UserTable({ initialUsers }: { initialUsers: any[] }) {
       if (res.ok) {
         setUsers(users.map((u) => (u.id === editingUser.id ? editingUser : u)));
         setEditingUser(null);
-        alert("User berhasil diperbarui");
+        Swal.fire("Berhasil!", "User berhasil diperbarui.", "success");
       }
     } catch (err) {
       console.error(err);
+      Swal.fire("Error!", "Tidak dapat terhubung ke server.", "error");
     }
   };
 

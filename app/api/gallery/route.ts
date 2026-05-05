@@ -2,6 +2,21 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { jwtVerify } from "jose";
+
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+async function checkAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return false;
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload.role === "admin";
+  } catch {
+    return false;
+  }
+}
 
 /* ================= GET ================= */
 export async function GET() {
@@ -20,10 +35,11 @@ export async function GET() {
 
 /* ================= POST ================= */
 export async function POST(req: Request) {
-  const role = (await cookies()).get("role")?.value;
-  if (role !== "admin") {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+  // ✅ Cek admin
+  if (!(await checkAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
 
   try {
     const formData = await req.formData();

@@ -1,6 +1,22 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
+
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+async function checkAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return false;
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload.role === "admin";
+  } catch {
+    return false;
+  }
+}
 
 export async function GET() {
   try {
@@ -14,6 +30,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  // ✅ Cek admin
+  if (!(await checkAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const formData = await req.formData();
     const name = formData.get("name") as string;
@@ -25,7 +46,6 @@ export async function POST(req: Request) {
     let imageId: string | null = null;
 
     if (file && file.type.startsWith("image/")) {
-      // Upload ke Cloudinary folder 'biographies'
       const upload = await uploadToCloudinary(file, "biographies");
       imagePath = upload.secure_url;
       imageId = upload.public_id;

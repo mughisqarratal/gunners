@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import AdminNewsPreview from "./AdminNewsPreview";
 import AdminNewsEdit from "./AdminNewsEdit";
 import { Loader2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 interface NewsList {
   id: number;
@@ -91,10 +92,37 @@ export default function AdminNewsPage() {
   };
 
   const remove = async (id: number) => {
-    if (!confirm("Yakin hapus news ini?")) return;
-    await fetch(`/api/news/${id}`, { method: "DELETE" });
-    fetchNews();
-  };
+    // --- START UBAH DISINI ---
+    Swal.fire({
+      title: "Apakah kamu yakin ingin menghapus news ini?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showDenyButton: true,
+      showCancelButton: false, // Kita gunakan Deny sebagai tombol 'Tidak'
+      confirmButtonText: "Ya, Hapus!",
+      denyButtonText: `Batal`,
+      confirmButtonColor: "#d33", // Merah untuk hapus
+      denyButtonColor: "#3085d6", // Biru untuk batal
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Proses Delete ke API
+          const res = await fetch(`/api/news/${id}`, { method: "DELETE" });
+          
+          if (res.ok) {
+            Swal.fire("Terhapus!", "News berhasil dihapus.", "success");
+            fetchNews(); // Refresh list
+          } else {
+            Swal.fire("Gagal!", "Terjadi kesalahan saat menghapus data.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Error!", "Tidak dapat terhubung ke server.", "error");
+        }
+      } else if (result.isDenied) {
+        Swal.fire("Dibatalkan", "News aman, tidak jadi dihapus.", "info");
+      }
+    });
+    };
 
   /* ================= RENDER ================= */
   return (

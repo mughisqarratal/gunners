@@ -1,10 +1,23 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
+
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 async function checkAdmin() {
   const cookieStore = await cookies();
-  return (await cookieStore).get("role")?.value === "admin";
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) return false;
+
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload.role === "admin";
+  } catch {
+    // Token tidak valid atau expired
+    return false;
+  }
 }
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
@@ -14,7 +27,6 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
   try {
     const { id } = await params;
-    // Gunakan nama tabel sesuai DB Hostinger kamu (User atau user)
     await db.execute("DELETE FROM User WHERE id = ?", [id]);
     return NextResponse.json({ message: "User deleted" });
   } catch (error) {
