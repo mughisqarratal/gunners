@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import {oswald, lora} from "@/app/fonts";
 
 type MenuItem = {
   name: string;
@@ -45,7 +46,7 @@ export default function NavbarDekstop() {
         </Link>
 
         {/* Menu */}
-        <ul className="flex space-x-9 font-bold text-[#0F0E0E] items-center">
+        <ul className={`flex space-x-9 ${oswald.className} font-regular text-[#0F0E0E] items-center text-[18px]`}>
           {/* Hanya tampilkan menu jika bukan admin */}
           {role !== "admin" &&
             menu
@@ -92,7 +93,7 @@ export default function NavbarDekstop() {
             <li>
               <Link
                 href="/register"
-                className="inline-block bg-[#0F0E0E] rounded-full py-1 px-4 font-bold text-[#F3B800] hover:bg-amber-100 hover:text-[#0F0E0E]"
+                className={`${lora.className} inline-block bg-[#0F0E0E] rounded-full py-1 px-4 font-bold text-[#F3B800] hover:bg-amber-100 hover:text-[#0F0E0E]`}
               >
                 Sign Up
               </Link>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import {lora, oswald} from "@/app/fonts";
 
 type MenuItem = {
   name: string;
@@ -63,7 +64,7 @@ export default function NavbarMobile() {
           ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
         `}
       >
-        <ul className="flex flex-col bg-[#0F0E0E] text-white px-6 py-6 space-y-4 text-center font-bold gap-3">
+        <ul className={`${oswald.className} flex flex-col bg-[#0F0E0E] text-white px-6 py-6 space-y-4 text-center font-regular gap-3 text-[18px]`}>
           {menu
             .filter((item) => !item.auth || isLoggedIn)
             .map((item) => {
@@ -98,7 +99,7 @@ export default function NavbarMobile() {
               <Link
                 href="/register"
                 onClick={closeMenu}
-                className="inline-block bg-[#F3B800] rounded-full py-1 px-4 font-bold text-gray-900"
+                className={`${lora.className} inline-block bg-[#F3B800] rounded-full py-1 px-4 font-bold text-gray-900`}
               >
                 Sign Up
               </Link>
@@ -120,7 +121,7 @@ export default function NavbarMobile() {
                   height={28}
                   className="border-white"
                 />
-                <span className="font-bold">Profile</span>
+                <span className={`${oswald.className} font-regular`}>Profile</span>
               </Link>
             </li>
           )}

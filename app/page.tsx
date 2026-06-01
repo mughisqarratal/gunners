@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { bebas, oswald, openSans, lora, protest } from "@/app/fonts";
 import {
   FaInstagram,
   FaFacebook,
@@ -35,14 +36,14 @@ export default async function Home() {
         {/* Konten */}
         <div className="relative z-10 flex h-full items-center justify-center px-5 text-center">
           <h1
-            className="text-white font-bold leading-tight px-5 py-35
+            className={`${protest.className} text-white leading-tight px-5 py-35
               sm:px-6 sm:py-4
               lg:px-10 lg:py-6
-              text-2xl sm:text-3xl lg:text-5xl
-              sm:font-bold"
+              text-[28px] sm:text-3xl lg:text-6xl
+              sm:font-extrabold`}
           >
-            The Official Indonesian <br className="hidden sm:block"/>
-            Guns N' Roses Fan Site
+            The Official Indonesian <br className="md:block sm:block" />
+            GUNS N' ROSES Fan Site
           </h1>
           {/* <h1
             className="text-white font-bold leading-tight px-5 py-35
@@ -57,14 +58,30 @@ export default async function Home() {
         </div>
       </section>
 
-      <h1 className="text-3xl sm:text-5md font-bold text-[#F3B800] mb-0 leading-tight mt-0">
+      <h1
+        className={`${openSans.className} text-3xl sm:text-5md font-bold bg-linear-to-b
+    from-[#DC0000]
+    via-[#F56A00]
+    to-[#F3B800]
+    bg-clip-text
+    text-transparent mb-0 leading-tight mt-0`}
+      >
         A Big Tribute to
       </h1>
-      <h1 className="text-3xl sm:text-5md font-bold text-[#F3B800] mb-3 leading-tight mt-2">
+      <h1
+        className={`${openSans.className} text-3xl sm:text-5md font-bold bg-linear-to-b
+    from-[#F3B800]
+    via-[#F56A00]
+    to-[#DC0000]
+    bg-clip-text
+    text-transparent mb-3 leading-tight mt-2`}
+      >
         Guns N' Roses from Indonesia
       </h1>
 
-      <p className="text-base sm:text-2xl text-gray-50 w-auto sm:w-230">
+      <p
+        className={`${openSans.className} text-base sm:text-2xl text-gray-50 w-full px-4 sm:w-220`}
+      >
         Guns N' Roses is an American hard rock band formed in Los Angeles,
         California, in 1985 from L.A. Guns and Hollywood Rose. After signing
         with Geffen Records in 1986, the band's "classic" lineup featured
@@ -78,17 +95,17 @@ export default async function Home() {
             <>
               <li>
                 <button
-                  className="cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-5.5
-                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]"
+                  className={`${lora.className} cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-5.5
+                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]`}
                 >
                   <a href="/register">Sign Up</a>
-                </button> 
+                </button>
               </li>
 
               <li className="pt-4">
                 <button
-                  className="cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-7
-                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]"
+                  className={`${lora.className} cursor-pointer font-extrabold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-7
+                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]`}
                 >
                   <a href="/login">Login</a>
                 </button>
@@ -101,7 +118,11 @@ export default async function Home() {
         {/* SOCIALS */}
         <div>
           {/* <h1 className="font-corvinus text-6xl text-amber-50">CORVINUS WORKS</h1> */}
-          <h2 className="text-2xl font-bold text-[#F3B800] mb-4">Socials</h2>
+          <h2
+            className={`${bebas.className} text-3xl font-bold text-[#F3B800] mb-4 mt-3`}
+          >
+            Socials
+          </h2>
           <div className="flex justify-center gap-6 mb-6">
             <a
               href="https://www.instagram.com/gunsnroses?igsh=cGV1eGxodnVnNTB6"
@@ -143,7 +164,9 @@ export default async function Home() {
 
         {/* LISTEN */}
         <div>
-          <h2 className="text-2xl font-bold text-[#F3B800] mb-4">
+          <h2
+            className={`${bebas.className} text-3xl font-bold text-[#F3B800] mb-4`}
+          >
             Listen Guns N' Roses
           </h2>
 

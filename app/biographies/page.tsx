@@ -1,5 +1,6 @@
 import PersonelCard from "./components/PersonelCard";
 import { prisma } from "@/lib/prisma";
+import { bebas, oswald, openSans } from "@/app/fonts";
 
 /* ================= FETCH BIOGRAPHIES (SERVER) ================= */
 async function getPersonels() {
@@ -23,7 +24,7 @@ export default async function BiographiesPage() {
           className="mx-auto w-48 mb-6"
         />
 
-        <p className=" w-auto mx-auto text-gray-700 sm:text-2xl text-center sm:w-260">
+        <p className={`${openSans.className} w-auto mx-auto text-gray-700 sm:text-2xl text-center sm:w-260`}>
           Guns N’ Roses adalah band hard rock asal Los Angeles, Amerika Serikat,
           yang terbentuk pada tahun 1985. Band ini menjadi terkenal melalui
           album debut <a className="italic">Appetite for Destruction</a> pada
@@ -43,8 +44,11 @@ export default async function BiographiesPage() {
 
       {/* PERSONELS */}
       <section>
-        <h2 className="text-2xl font-bold text-center mb-10">PERSONELS</h2>
-
+        <h2
+          className={`${bebas.className} text-4xl font-bold text-center mb-10`}
+        >
+          PERSONELS
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {personels.map((p) => (
             <PersonelCard key={p.id} personel={p} />
