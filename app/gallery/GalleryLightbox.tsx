@@ -55,7 +55,7 @@ export default function GalleryLightbox({
 
   return (
     <>
-      {/* ================= GRID GALLERY (STYLE LAMA) ================= */}
+      {/* ================= GRID GALLERY ================= */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {images.map((img, i) => (
           <button
@@ -67,7 +67,7 @@ export default function GalleryLightbox({
               src={img}
               alt="Gallery"
               fill
-              className="object-cover cursor-pointer"
+              className="object-cover cursor-pointer border-2 border-[#F3B800]"
               sizes="(max-width: 768px) 100vw, 25vw"
             />
           </button>
@@ -89,7 +89,7 @@ export default function GalleryLightbox({
             {/* CLOSE BUTTON (KIRI ATAS) */}
             <button
               onClick={() => setActiveIndex(null)}
-              className="absolute top-30 lg:top-0 lg:left-15 z-50 text-white bg-black w-10 h-10 rounded flex items-center justify-center text-xl font-bold cursor-pointer"
+              className="absolute top-30 lg:top-0 lg:left-15 z-50 text-black bg-white w-10 h-10 rounded flex items-center justify-center text-xl font-bold cursor-pointer"
             >
               ✕
             </button>
@@ -98,7 +98,7 @@ export default function GalleryLightbox({
             {activeIndex > 0 && (
               <button
                 onClick={() => setActiveIndex(activeIndex - 1)}
-                className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-40 text-white bg-black w-10 h-10 rounded-full items-center justify-center text-2xl cursor-pointer"
+                className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-40 text-black bg-white w-10 h-10 rounded-full items-center justify-center text-2xl cursor-pointer"
               >
                 ‹
               </button>
@@ -108,7 +108,7 @@ export default function GalleryLightbox({
             {activeIndex < images.length - 1 && (
               <button
                 onClick={() => setActiveIndex(activeIndex + 1)}
-                className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-40 text-white bg-black w-10 h-10 rounded-full items-center justify-center text-2xl cursor-pointer"
+                className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-40 text-black bg-white w-10 h-10 rounded-full items-center justify-center text-2xl cursor-pointer"
               >
                 ›
               </button>

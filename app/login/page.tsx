@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { bebas, openSans, lora } from "../fonts";
 // import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
@@ -57,12 +58,14 @@ export default function LoginPage() {
             onSubmit={handleSubmit}
             className="bg-white rounded-xl shadow p-6 flex flex-col gap-4"
           >
-            <h1 className="text-2xl font-bold text-center">Login</h1>
+            <h1 className={`${bebas.className} text-3xl font-bold text-center`}>
+              Login
+            </h1>
 
             <input
               type="email"
               placeholder="Email"
-              className="w-full h-12 rounded border px-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`${openSans.className} w-full h-12 rounded border px-3 text-base focus:outline-none focus:ring-2 focus:ring-[#F3B800] `}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -72,7 +75,7 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="w-full h-12 rounded border px-3 pr-10 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`${openSans.className} w-full h-12 rounded border px-3 pr-10 text-base focus:outline-none focus:ring-2 focus:ring-[#F3B800]`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -90,9 +93,14 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded bg-blue-600 text-white font-medium
-            hover:bg-blue-700 disabled:opacity-60 transition
-            flex items-center justify-center gap-2 cursor-pointer"
+              className={`${lora.className} w-full h-12 font-bold rounded flex items-center justify-center text-[#242424]
+    bg-linear-to-r
+    from-[#DC0000]
+    via-[#F56A00]
+    to-[#F3B800]
+    hover:grayscale-150
+    transition-all
+    duration-300 cursor-pointer`}
             >
               {loading && <Loader2 className="animate-spin" size={20} />}
               {loading ? "Loading..." : "Login"}
@@ -100,18 +108,29 @@ export default function LoginPage() {
 
             <Link
               href="/forgot-password"
-              className="text-blue-600 hover:underline text-right"
+              className={`${openSans.className} text-blue-600 hover:underline text-right`}
             >
               Lupa kata sandi?
             </Link>
 
             {error && (
-              <p className="text-center text-sm text-red-500">{error}</p>
+              <p className=" text-center text-sm text-red-500">{error}</p>
             )}
 
-            <p className="text-center">Login, jika sudah punya Akun!</p>
+            <p className={`${openSans.className} text-center`}>
+              Login, jika sudah punya Akun!
+            </p>
 
-            <button className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition cursor-pointer">
+            <button
+              className={`${lora.className} w-full h-12 font-bold rounded flex items-center justify-center text-[#242424]
+    bg-linear-to-r
+    from-[#F3B800]
+    via-[#F56A00]
+    to-[#DC0000]
+    hover:grayscale-150
+    transition-all
+    duration-300 cursor-pointer`}
+            >
               <a href="/register">Register</a>
             </button>
             {/* <button

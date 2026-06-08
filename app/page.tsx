@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { bebas, oswald, openSans, lora, protest } from "@/app/fonts";
+import { bebas, openSans, lora, protest } from "@/app/fonts";
 import {
   FaInstagram,
   FaFacebook,
@@ -45,16 +45,6 @@ export default async function Home() {
             The Official Indonesian <br className="md:block sm:block" />
             GUNS N' ROSES Fan Site
           </h1>
-          {/* <h1
-            className="text-white font-bold leading-tight px-5 py-35
-              sm:px-6 sm:py-4
-              lg:px-10 lg:py-6
-              text-2xl sm:text-3xl lg:text-5xl
-              sm:font-bold"
-          >
-            The Official Indonesian <br className="hidden sm:block"/>
-            Guns N' Roses Fan Site
-          </h1> */}
         </div>
       </section>
 
@@ -89,23 +79,43 @@ export default async function Home() {
         bassist Duff McKagan, and drummer Steven Adler.
       </p>
 
-      <div className="mt-6 flex items-center mb-2">
-        <ul>
+      <div className="mt-8 flex items-center">
+        <ul className="">
           {!isLoggedIn && (
             <>
-              <li>
+              <li className="">
                 <button
-                  className={`${lora.className} cursor-pointer font-bold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-5.5
-                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]`}
+                  className={`${lora.className}  px-6 py-1.5
+    rounded
+    font-bold
+    text-[#242424]
+    bg-linear-to-b
+    from-[#DC0000]
+    via-[#F56A00]
+    to-[#F3B800]
+    hover:grayscale-150
+    transition-all
+    duration-300
+    cursor-pointer`}
                 >
                   <a href="/register">Sign Up</a>
                 </button>
               </li>
 
-              <li className="pt-4">
+              <li className="pt-5">
                 <button
-                  className={`${lora.className} cursor-pointer font-extrabold bg-[#F3B800] hover:bg-[#ffd149] py-1.5 px-7
-                  rounded-full border border-gray-50 border-hover:bg-[#07d9f5]`}
+                  className={`${lora.className}  px-7.5 py-1.5
+    rounded
+    font-bold
+    text-[#242424]
+    bg-linear-to-t
+    from-[#DC0000]
+    via-[#F56A00]
+    to-[#F3B800]
+    hover:grayscale-150
+    transition-all
+    duration-300
+    cursor-pointer`}
                 >
                   <a href="/login">Login</a>
                 </button>
@@ -114,16 +124,15 @@ export default async function Home() {
           )}
         </ul>
       </div>
-      <div className="mt-5 space-y-10">
+      <div className="mt-8 space-y-10">
         {/* SOCIALS */}
-        <div>
-          {/* <h1 className="font-corvinus text-6xl text-amber-50">CORVINUS WORKS</h1> */}
+        <div className="mb-8">
           <h2
-            className={`${bebas.className} text-3xl font-bold text-[#F3B800] mb-4 mt-3`}
+            className={`${bebas.className} text-3xl font-bold text-[#F3B800] mb-4`}
           >
             Socials
           </h2>
-          <div className="flex justify-center gap-6 mb-6">
+          <div className="flex justify-center gap-6">
             <a
               href="https://www.instagram.com/gunsnroses?igsh=cGV1eGxodnVnNTB6"
               target="_blank"
@@ -163,14 +172,14 @@ export default async function Home() {
         </div>
 
         {/* LISTEN */}
-        <div>
+        <div className="mb-10">
           <h2
             className={`${bebas.className} text-3xl font-bold text-[#F3B800] mb-4`}
           >
             Listen Guns N' Roses
           </h2>
 
-          <div className="flex justify-center gap-6 flex-wrap mb-10">
+          <div className="flex justify-center gap-6 flex-wrap">
             <a
               href="https://open.spotify.com/artist/3qm84nBOXUEQ2vnTfUTTFC?si=Q3L3oCOxRReZaovrIkakVw"
               target="_blank"

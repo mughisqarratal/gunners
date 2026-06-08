@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import GalleryLightbox from "./GalleryLightbox";
+import {oswald, openSans} from "@/app/fonts";
 
 type GalleryWithImages = {
   id: number;
@@ -33,17 +34,17 @@ export default async function GalleryPage() {
   const galleries = await getGallery();
 
   return (
-    <main className="max-w-6xl mx-auto px-3 pb-1.5">
+    <main className="max-w-6xl mx-auto px-3 pb-5 ">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">
         GALLERY
       </h1> */}
-      <div className="space-y-14">
+      <div className="space-y-14 bg-[#000000]">
         {galleries.map((g) => (
           <section key={g.id} className="sm:mb-8">
-            <h2 className="text-lg font-semibold mt-5">
+            <h2 className={`${oswald.className} text-xl font-semibold mt-5 text-gray-300`}>
               {g.title}
             </h2>
-            <p className="text-sm text-gray-500 mb-1">
+            <p className={`${openSans.className} text-sm text-gray-500 font-bold mb-2`}>
               {g.venue}
             </p>
 

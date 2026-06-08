@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
+import {oswald, openSans} from "@/app/fonts";
 
 /* ================= FETCH NEWS ================= */
 export const revalidate = 60;
@@ -28,7 +29,7 @@ export default async function NewsPage() {
   const news = await getNews();
 
   return (
-    <main className="max-w-5xl mx-auto px-4 ">
+    <main className=" max-w-5xl mx-auto px-4">
       {/* <h1 className="text-3xl font-bold mt-3 text-center">NEWS</h1> */}
 
       {/* ✅ LIST WRAPPER (INI KUNCINYA) */}
@@ -41,7 +42,8 @@ export default async function NewsPage() {
               <Link
                 href={`/news/${n.slug}`}
                 className="
-                  block
+                    block 
+                  border-2 border-[#F3B800]  
                   bg-white shadow
                   hover:bg-gray-200 transition
                 "
@@ -68,16 +70,16 @@ export default async function NewsPage() {
                   {/* CONTENT */}
                   <div className="flex flex-col justify-between flex-1 ">
                     <div>
-                      <h2 className="text-xl font-semibold">{n.title}</h2>
+                      <h2 className={`${oswald.className} text-xl font-semibold`}>{n.title}</h2>
 
                       {n.excerpt && (
-                        <p className="text-gray-600 mt-2 line-clamp-3">
+                        <p className={`${openSans.className} text-gray-600 mt-2 line-clamp-3`}>
                           {n.excerpt}
                         </p>
                       )}
                     </div>
 
-                    <p className="text-sm text-gray-400 mt-3">
+                    <p className={`${openSans.className} text-sm text-gray-400 mt-3`}>
                       {new Date(n.createdAt).toLocaleDateString("id-ID")}
                     </p>
                   </div>

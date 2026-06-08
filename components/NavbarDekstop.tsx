@@ -46,7 +46,7 @@ export default function NavbarDekstop() {
         </Link>
 
         {/* Menu */}
-        <ul className={`flex space-x-9 ${oswald.className} font-regular text-[#0F0E0E] items-center text-[18px]`}>
+        <ul className={`flex space-x-8.5 ${oswald.className} font-regular text-[#0F0E0E] items-center text-[20px]`}>
           {/* Hanya tampilkan menu jika bukan admin */}
           {role !== "admin" &&
             menu
@@ -93,7 +93,7 @@ export default function NavbarDekstop() {
             <li>
               <Link
                 href="/register"
-                className={`${lora.className} inline-block bg-[#0F0E0E] rounded-full py-1 px-4 font-bold text-[#F3B800] hover:bg-amber-100 hover:text-[#0F0E0E]`}
+                className={`${lora.className} inline-block bg-[#0F0E0E] rounded text-[16px] py-1 px-4 font-bold text-[#F3B800] hover:bg-amber-100 hover:text-[#0F0E0E]`}
               >
                 Sign Up
               </Link>

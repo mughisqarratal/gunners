@@ -1,6 +1,6 @@
 import PersonelCard from "./components/PersonelCard";
 import { prisma } from "@/lib/prisma";
-import { bebas, oswald, openSans } from "@/app/fonts";
+import { bebas, openSans } from "@/app/fonts";
 
 /* ================= FETCH BIOGRAPHIES (SERVER) ================= */
 async function getPersonels() {
@@ -13,10 +13,10 @@ export default async function BiographiesPage() {
   const personels = await getPersonels();
 
   return (
-    <div className="container mx-auto px-3 sm:px-4 py-5">
+    <main className="">
+    <div className="container bg-[#000000] mx-auto px-3 sm:px-4 py-5">
       {/* BIOGRAPHIES */}
       <section className="text-center mb-10 sm:mb-15">
-        {/* <h1 className="text-3xl font-bold mb-6">BIOGRAPHIES</h1> */}
 
         <img
           src="/images/gnr.png"
@@ -24,7 +24,7 @@ export default async function BiographiesPage() {
           className="mx-auto w-48 mb-6"
         />
 
-        <p className={`${openSans.className} w-auto mx-auto text-gray-700 sm:text-2xl text-center sm:w-260`}>
+        <p className={`${openSans.className} w-auto mx-auto text-gray-300 sm:text-2xl text-center sm:w-260`}>
           Guns N’ Roses adalah band hard rock asal Los Angeles, Amerika Serikat,
           yang terbentuk pada tahun 1985. Band ini menjadi terkenal melalui
           album debut <a className="italic">Appetite for Destruction</a> pada
@@ -45,7 +45,7 @@ export default async function BiographiesPage() {
       {/* PERSONELS */}
       <section>
         <h2
-          className={`${bebas.className} text-4xl font-bold text-center mb-10`}
+          className={`${bebas.className} text-4xl font-bold text-center mb-10 text-gray-300`}
         >
           PERSONELS
         </h2>
@@ -56,5 +56,6 @@ export default async function BiographiesPage() {
         </div>
       </section>
     </div>
+    </main>
   );
 }

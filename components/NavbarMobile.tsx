@@ -99,7 +99,7 @@ export default function NavbarMobile() {
               <Link
                 href="/register"
                 onClick={closeMenu}
-                className={`${lora.className} inline-block bg-[#F3B800] rounded-full py-1 px-4 font-bold text-gray-900`}
+                className={`${lora.className} inline-block bg-[#F3B800] rounded py-1 px-4 font-bold text-gray-900`}
               >
                 Sign Up
               </Link>

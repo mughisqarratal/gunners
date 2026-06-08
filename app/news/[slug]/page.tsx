@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { oswald, openSans, lora } from "@/app/fonts";
 
 /* ================= FETCH DETAIL ================= */
 async function getNewsDetail(slug: string) {
@@ -31,16 +32,16 @@ export default async function NewsDetail({
   }
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10 space-y-6">
-      <h1 className="text-3xl font-bold">{news.title}</h1>
+    <main className="max-w-4xl mx-auto px-4 py-6 my-5 space-y-5 bg-white border-2 border-[#F3B800]">
+      <h1 className={`${oswald.className} text-3xl font-bold`}>{news.title}</h1>
 
       {news.excerpt && (
-        <p className="text-gray-500 italic">{news.excerpt}</p>
+        <p className={`${openSans.className} text-gray-500 italic`}>{news.excerpt}</p>
       )}
 
       {/* IMAGES */}
       {news.images.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
           {news.images.map((img) => (
             <img
               key={img.id}
@@ -52,7 +53,7 @@ export default async function NewsDetail({
         </div>
       )}
 
-      <article className="whitespace-pre-line leading-relaxed">
+      <article className={`${openSans.className} whitespace-pre-line leading-relaxed`}>
         {news.content}
       </article>
 
@@ -61,7 +62,7 @@ export default async function NewsDetail({
         <a
           href={news.button.url}
           target="_blank"
-          className="inline-block mt-6 bg-black text-white px-6 py-2 rounded"
+          className={`inline-block mt-6 bg-black text-white px-6 py-2 rounded ${lora.className}`}
         >
           {news.button.label}
         </a>
