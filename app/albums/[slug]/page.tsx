@@ -40,7 +40,7 @@ export default async function AlbumDetailPage({
               src={album.cover}
               alt={album.title}
               fill
-              className="object-cover rounded"
+              className="object-cover"
             />
           </div>
 
