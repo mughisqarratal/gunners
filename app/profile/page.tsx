@@ -79,6 +79,21 @@ export default function ProfilePage() {
         confirmButtonColor: "#000",
       });
     }
+    // await Swal.fire({
+    //   icon: "warning",
+    //   title: "Oops!",
+    //   text: "Nama minimal 3 karakter",
+
+    //   customClass: {
+    //     popup: "rounded-xl bg-white",
+    //     title: "text-[#DC0000] text-xl font-bold",
+    //     htmlContainer: "text-gray-700",
+    //     confirmButton:
+    //       "bg-gradient-to-r from-[#DC0000] via-[#F56A00] to-[#F3B800] text-white px-6 py-2 rounded font-bold",
+    //   },
+
+    //   buttonsStyling: false,
+    // });
 
     setLoadingAction("name");
     try {
@@ -243,7 +258,9 @@ export default function ProfilePage() {
               >
                 <div className="flex items-center gap-3 cursor-pointer">
                   <Settings size={20} />
-                  <span className={`${lora.className} font-medium`}>Pengaturan Akun</span>
+                  <span className={`${lora.className} font-medium`}>
+                    Pengaturan Akun
+                  </span>
                 </div>
                 <ChevronRight size={18} />
               </button>
@@ -287,7 +304,9 @@ export default function ProfilePage() {
             <div className="space-y-8">
               {/* Ubah Nama */}
               <div>
-                <label className={`${oswald.className} block text-md font-bold mb-2`}>
+                <label
+                  className={`${oswald.className} block text-md font-bold mb-2`}
+                >
                   Nama Lengkap
                 </label>
                 <div className="flex gap-2">
@@ -310,7 +329,9 @@ export default function ProfilePage() {
 
               {/* Ubah Email */}
               <div className="pt-4 border-t">
-                <label className={`${oswald.className} text-md font-bold mb-2 flex items-center gap-2`}>
+                <label
+                  className={`${oswald.className} text-md font-bold mb-2 flex items-center gap-2`}
+                >
                   <Mail size={16} /> Ganti Email
                 </label>
                 <div className="space-y-2">
@@ -356,7 +377,9 @@ export default function ProfilePage() {
 
               {/* Ubah Password */}
               <div className="pt-4 border-t pb-10">
-                <label className={`${oswald.className} text-md font-bold mb-2 flex items-center gap-2`}>
+                <label
+                  className={`${oswald.className} text-md font-bold mb-2 flex items-center gap-2`}
+                >
                   <Lock size={16} /> Ganti Password
                 </label>
                 <div className="space-y-2">

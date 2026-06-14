@@ -40,6 +40,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <Link href="/dashboard/admin/news" className="hover:bg-gray-800 px-3 py-2 rounded">
             News
           </Link>
+           <Link href="/dashboard/admin/albums" className="hover:bg-gray-800 px-3 py-2 rounded">
+            Albums
+          </Link>
         </nav>
 
         {/* 🔴 BUTTON LOGOUT */}

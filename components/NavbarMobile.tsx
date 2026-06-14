@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import {lora, oswald} from "@/app/fonts";
+import { lora, oswald } from "@/app/fonts";
 
 type MenuItem = {
   name: string;
@@ -16,6 +16,13 @@ type MenuItem = {
 export default function NavbarMobile() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const isActivePath = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname.startsWith(href);
+  };
   const { isLoggedIn } = useAuth();
 
   const toggleMenu = () => setOpen(!open);
@@ -25,6 +32,7 @@ export default function NavbarMobile() {
     { name: "Home", href: "/" },
     { name: "Biographies", href: "/biographies" },
     { name: "Gallery", href: "/gallery" },
+     { name: "Albums", href: "/albums" },
     { name: "News", href: "/news" },
   ];
 
@@ -38,17 +46,13 @@ export default function NavbarMobile() {
             alt="Logo"
             width={170}
             height={50}
-            className="object-contain"
+            className="object-contain cursor-pointer"
             priority
           />
         </Link>
 
         {/* Toggle Button */}
-        <button
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-          className=""
-        >
+        <button onClick={toggleMenu} aria-label="Toggle Menu" className="cursor-pointer">
           <Image
             src={open ? "/icons/arrow.png" : "/icons/menu1.png"}
             alt={open ? "Close menu" : "Open menu"}
@@ -58,17 +62,28 @@ export default function NavbarMobile() {
         </button>
       </div>
 
+      {open && (
+        <div className="fixed inset-0 bg-black/40 z-30" onClick={closeMenu} />
+      )}
+      {open && (
+        <div className="fixed inset-0 bg-black/40 z-30" onClick={closeMenu} />
+      )}
       {/* Mobile Menu */}
       <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out
-          ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
-        `}
+        className={`
+    relative z-40
+    overflow-hidden
+    transition-all duration-500 ease-in-out
+    ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+  `}
       >
-        <ul className={`${oswald.className} flex flex-col bg-[#0F0E0E] text-white px-6 py-6 space-y-4 text-center font-regular gap-3 text-[18px]`}>
+        <ul
+          className={`${oswald.className} flex flex-col bg-[#0F0E0E] text-white px-6 py-6 space-y-4 text-center font-regular gap-3 text-[18px]`}
+        >
           {menu
             .filter((item) => !item.auth || isLoggedIn)
             .map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = isActivePath(item.href);
 
               return (
                 <li key={item.href}>
@@ -121,7 +136,9 @@ export default function NavbarMobile() {
                   height={28}
                   className="border-white"
                 />
-                <span className={`${oswald.className} font-regular`}>Profile</span>
+                <span className={`${oswald.className} font-regular`}>
+                  Profile
+                </span>
               </Link>
             </li>
           )}

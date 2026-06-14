@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname} from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import {oswald, lora} from "@/app/fonts";
 
@@ -14,21 +14,24 @@ type MenuItem = {
 
 export default function NavbarDekstop() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { isLoggedIn, role, logout } = useAuth();
+  const isActivePath = (href: string) => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname.startsWith(href);
+};
+  const { isLoggedIn, role} = useAuth();
 
   const menu: MenuItem[] = [
     { name: "Home", href: "/" },
     { name: "Biographies", href: "/biographies" },
     { name: "Gallery", href: "/gallery" },
+     { name: "Albums", href: "/albums" },
     { name: "News", href: "/news"},
+   
+    
   ];
-
-  const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST" });
-    logout();
-    router.push("/");
-  };
 
   return (
     <nav className="hidden lg:block sticky top-0 z-30 bg-[#F3B800] shadow-md py-5 px-3.5">
@@ -52,7 +55,7 @@ export default function NavbarDekstop() {
             menu
               .filter((item) => !item.auth || isLoggedIn)
               .map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = isActivePath(item.href);
                 return (
                   <li key={item.href}>
                     <Link href={item.href}>

@@ -38,8 +38,9 @@ export default async function Home() {
           <h1
             className={`${protest.className} text-white leading-tight px-5 py-35
               sm:px-6 sm:py-4
+              md:px-8 md:py-6 md:pt-75
               lg:px-10 lg:py-6
-              text-[28px] sm:text-3xl lg:text-6xl
+              text-[28px] sm:text-3xl md:text-5xl lg:text-6xl
               sm:font-extrabold`}
           >
             The Official Indonesian <br className="md:block sm:block" />
